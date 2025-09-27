@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FreightController</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind & Flowbite -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-900">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+            <a href="/" class="flex items-center">
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                    FreightController
+                </span>
+            </a>
+            <div class="flex items-center lg:order-2 space-x-4">
+                <button
+                    class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                    hx-get=""
+                    hx-target="#modal-body"
+                    hx-trigger="click"
+                    data-modal-target="auth-modal"
+                    data-modal-toggle="auth-modal">
+                    Login
+                </button>
+                <a href="#"
+                   class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 border border-gray-300">
+                   Register
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gray-50 dark:bg-gray-900">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                Simplify Your Freight Operations
+            </h1>
+            <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
+                FreightController helps you track, manage, and optimize your logistics in one place.
+                Save time, cut costs, and gain full visibility of your supply chain.
+            </p>
+            <div class="flex flex-col mb-8 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+                <a href="#"
+                   class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+                    Get Started
+                </a>
+                <a href="#"
+                   class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="bg-white dark:bg-gray-800">
+        <div class="py-12 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div class="max-w-screen-md mb-8 lg:mb-16">
+                <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+                    Why FreightController?
+                </h2>
+                <p class="text-gray-500 sm:text-xl dark:text-gray-400">
+                    Tools designed to make freight management effortless.
+                </p>
+            </div>
+            <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+                <div>
+                    <h3 class="mb-2 text-xl font-bold dark:text-white">📦 Real-time Tracking</h3>
+                    <p class="text-gray-500 dark:text-gray-400">Track shipments in real-time and never lose sight of your cargo.</p>
+                </div>
+                <div>
+                    <h3 class="mb-2 text-xl font-bold dark:text-white">💰 Cost Optimization</h3>
+                    <p class="text-gray-500 dark:text-gray-400">Analyze routes and expenses to reduce logistics costs effectively.</p>
+                </div>
+                <div>
+                    <h3 class="mb-2 text-xl font-bold dark:text-white">📊 Smart Analytics</h3>
+                    <p class="text-gray-500 dark:text-gray-400">Gain insights into your supply chain performance with detailed reports.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
+        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+                © 2025 <a href="/" class="hover:underline">FreightController™</a>. All Rights Reserved.
+            </span>
+        </div>
+    </footer>
+
+    <!-- Flowbite JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+
+    <!-- Modal for HTMX (Login/Register) -->
+    <div id="auth-modal" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[100vh]">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="p-6" id="modal-body">
+                    <!-- HTMX will load login/register forms here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

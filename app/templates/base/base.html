@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}FreightController{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind & Flowbite -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+            <!-- Logo -->
+            <a href="/" class="flex items-center">
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                    FreightController
+                </span>
+            </a>
+
+            <!-- Actions -->
+            <div class="flex items-center lg:order-2 space-x-4">
+                <!-- Dark mode toggle -->
+                <button id="theme-toggle" type="button"
+                        class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700
+                               focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700
+                               rounded-lg text-sm p-2.5">
+                    <!-- Sun icon -->
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor"
+                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 15a5 5 0 100-10 5 5 0 000 10z"></path>
+                        <path fill-rule="evenodd"
+                              d="M10 1a1 1 0 011 1v1a1 1 0 11-2 0V2a1 1 0 011-1zm4.22 2.03a1 1 0
+                              011.42 1.42l-.7.7a1 1 0
+                              11-1.42-1.42l.7-.7zM18 9a1 1 0
+                              100 2h-1a1 1 0
+                              100-2h1zm-2.03 4.22a1 1 0
+                              011.42 1.42l-.7.7a1 1 0
+                              11-1.42-1.42l.7-.7zM10 17a1 1 0
+                              011 1v1a1 1 0
+                              11-2 0v-1a1 1 0
+                              011-1zM5.78 16.97a1 1 0
+                              01-1.42-1.42l.7-.7a1 1 0
+                              111.42 1.42l-.7.7zM4 9a1 1 0
+                              100 2H3a1 1 0
+                              100-2h1zm2.03-4.22a1 1 0
+                              01-1.42-1.42l.7-.7a1 1 0
+                              111.42 1.42l-.7.7z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <!-- Moon icon -->
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor"
+                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M17.293 13.293A8 8 0 016.707 2.707
+                              a8.001 8.001 0 1010.586 10.586z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+
+                <!-- Auth buttons -->
+                <button
+                    class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300
+                           font-medium rounded-lg text-sm px-4 py-2"
+                    hx-get="{% url 'login' %}"
+                    hx-target="#modal-body"
+                    hx-trigger="click"
+                    data-modal-target="auth-modal"
+                    data-modal-toggle="auth-modal">
+                    Login
+                </button>
+                <a href="{% url 'register' %}"
+                   class="text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700
+                          focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-700
+                          font-medium rounded-lg text-sm px-4 py-2 border border-gray-300 dark:border-gray-700">
+                   Register
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white rounded-lg shadow dark:bg-gray-800 m-4">
+        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+                © 2025 <a href="/" class="hover:underline">FreightController™</a>. All Rights Reserved.
+            </span>
+        </div>
+    </footer>
+
+    <!-- Flowbite JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+
+    <!-- Modal (HTMX target for login/register) -->
+    <div id="auth-modal" tabindex="-1" aria-hidden="true"
+         class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[100vh]">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="p-6" id="modal-body">
+                    <!-- HTMX will inject content here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dark mode script -->
+    <script>
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
+        // Check initial theme
+        if (localStorage.getItem('color-theme') === 'dark' ||
+           (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function () {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        });
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

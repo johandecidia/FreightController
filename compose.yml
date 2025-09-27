@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    volumes:
+      - ./app:/app
+      - ./data/core:/vol/core
+      - ./app/db.sqlite3:/db.sqlite3
+    environment:
+      - DJANGO_SECRET_KEY='django-insecure-p*w^%p0b^#x1foycs2f=0mf_k@8rq(gjqv2ov)mr91e6-vul&$'
+      - DJANGO_DEBUG=True
+      - DJANGO_ALLOWED_HOSTS=.ondigitalocean.app
+      - DJANGO_CSRF_TRUSTED_ORIGINS='https://0.0.0.0'
+      - DJANGO_CONN_MAX_AGE=60
+      - DATABASE_URL=postgresql://neondb_owner:t37uJhzWxngw@ep-green-rice-a2r1zlz5.eu-central-1.aws.neon.tech/neondb?sslmode=require
+      - EMAIL_HOST='smtp.gmail.com'
+      - EMAIL_PORT='587'
+      - EMAIL_HOST_USER='johan@decidia.se'
+      - EMAIL_HOST_PASSWORD='jupm hxnf hrav kxou'
+      - EMAIL_USE_TLS=True
+      - EMAIL_USE_SSL=False
+      - ADMIN_USER_NAME='Johan'
+      - ADMIN_USER_EMAIL='johan@decidia.se'
+      - CELERY_BROKER_URL=rediss://default:AVNS_aOZGeBKp-Uo2jRIi-cq@db-caching-fra1-redis-1-do-user-7274953-0.f.db.ondigitalocean.com:25061?ssl_cert_reqs=CERT_NONE
+
+  celery_worker:
+    build:
+      context: .
+    command: [ 'celery', '-A', 'core', 'worker', '-E', '-l', 'info', '-P', 'threads' ]
+    environment:
+      - DJANGO_SECRET_KEY='django-insecure-p*w^%p0b^#x1foycs2f=0mf_k@8rq(gjqv2ov)mr91e6-vul&$'
+      - DJANGO_ALLOWED_HOSTS=.ondigitalocean.app
+      - DJANGO_CSRF_TRUSTED_ORIGINS='https://0.0.0.0'
+      - DATABASE_URL=postgresql://neondb_owner:t37uJhzWxngw@ep-green-rice-a2r1zlz5.eu-central-1.aws.neon.tech/neondb?sslmode=require
+      - CELERY_BROKER_URL=rediss://default:AVNS_aOZGeBKp-Uo2jRIi-cq@db-caching-fra1-redis-1-do-user-7274953-0.f.db.ondigitalocean.com:25061?ssl_cert_reqs=CERT_NONE
+    volumes:
+      - ./:/app/
+
