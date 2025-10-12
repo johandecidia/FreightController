@@ -69,7 +69,8 @@ INSTALLED_APPS = [
     "django_celery_results",
 
     # My apps
-    "base.apps.BaseConfig"
+    "base.apps.BaseConfig",
+    "upload.apps.UploadConfig"
 ]
 
 MIDDLEWARE = [
