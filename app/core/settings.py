@@ -70,7 +70,8 @@ INSTALLED_APPS = [
 
     # My apps
     "base.apps.BaseConfig",
-    "upload.apps.UploadConfig"
+    "upload.apps.UploadConfig",
+    "agent.apps.AgentConfig",
 ]
 
 MIDDLEWARE = [
